@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 16ba11d62020b4188ac6bfcd35509482
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - diceRigidbody: {instanceID: 0}
+  - mainCamera: {instanceID: 0}
+  - canvasToHide: {fileID: 2372088436036181182, guid: c747641e95dca44f59b5fb5180318d15, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
