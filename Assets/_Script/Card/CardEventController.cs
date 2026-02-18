@@ -1,55 +1,59 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class CardEventController : MonoBehaviour
 {
-    [SerializeField] private TurnCard turnCard;
-    [SerializeField] private Button cardButton;
-    [SerializeField] private Button acquireButton;
+    [Header("UI参照")]
+    [SerializeField] private GameObject acquisitionPanel; // 「カードゲット！」のポップアップ
+    [SerializeField] private Image cardImage;             // ゲットしたカードの絵を表示
+    [SerializeField] private Text cardNameText;
+    [SerializeField] private Button okButton;
+
+    private CardType currentCard;
+    private CardRepository cardRepository;
     private CardManager cardManager;
-    private CardType cardToAcquire;
 
     void Start()
     {
+        cardRepository = FindObjectOfType<CardRepository>();
         cardManager = FindObjectOfType<CardManager>();
-        cardButton.onClick.AddListener(OnCardTapped);
-        acquireButton.onClick.AddListener(OnAcquireButtonClicked);
+
+        if (acquisitionPanel != null) acquisitionPanel.SetActive(false);
+        
+        if (okButton != null)
+        {
+            okButton.onClick.AddListener(OnOkClicked);
+        }
     }
 
-    // CardManagerから呼ばれる
-    public void Show(CardType card)
+    // イベントマスから呼ばれるメソッド
+    public void StartAcquisitionEvent(CardType type)
     {
-        this.cardToAcquire = card;
-        gameObject.SetActive(true);
-        cardButton.interactable = true;
-        acquireButton.gameObject.SetActive(false);
+        currentCard = type;
+        
+        // データを取得して表示
+        CardData data = cardRepository.GetCardData(type);
+        if (data != null)
+        {
+            if (acquisitionPanel != null) acquisitionPanel.SetActive(true);
+            if (cardImage != null) cardImage.sprite = data.cardImage;
+            if (cardNameText != null) cardNameText.text = $"{data.cardName} を手に入れた！";
+        }
+        else
+        {
+            // データがない場合は即終了などの安全策
+            OnOkClicked();
+        }
     }
 
-    private void OnCardTapped()
+    private void OnOkClicked()
     {
-        cardButton.interactable = false;
-        StartCoroutine(CardFlipSequence());
-    }
+        if (acquisitionPanel != null) acquisitionPanel.SetActive(false);
 
-    private IEnumerator CardFlipSequence()
-    {
-        if (turnCard != null) yield return StartCoroutine(turnCard.Turn());
-        OnAnimationFinished();
-    }
-
-    private void OnAnimationFinished()
-    {
-        acquireButton.gameObject.SetActive(true);
-    }
-    
-    private void OnAcquireButtonClicked()
-    {
-        // CardManagerに、どのカードの獲得が確定したかを通知
+        // CardManagerを通じてプレイヤーに付与し、ターンエンド等の処理へ
         if (cardManager != null)
         {
-            cardManager.ConfirmCardAcquisition(cardToAcquire);
+            cardManager.ConfirmCardAcquisition(currentCard);
         }
-        gameObject.SetActive(false);
     }
 }

@@ -24,7 +24,6 @@ public class PlayerSpawner : MonoBehaviour
         if (cardHandController != null)
         {
             // CardHandControllerに、どのプレイヤーを監視すればよいか教える
-            cardHandController.Setup(playerState);
             Debug.Log("--- PlayerSpawner: CardHandControllerにPlayerStateを正常に設定しました。 ---");
         }
         else

@@ -18,7 +18,7 @@ public class EventManager : MonoBehaviour
             case TileEventType.Card:
                 if (cardManager != null)
                 {
-                    cardManager.StartCardAcquisitionEvent();
+                    FindObjectOfType<CardEventController>().StartAcquisitionEvent(CardType.PlusTwoRoll);
                 }
                 //カードイベントは、演出後のボタンでターンが終了するので、ここでは何もしない
                 break;

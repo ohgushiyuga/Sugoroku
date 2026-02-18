@@ -87,7 +87,7 @@ public class RandomNpcController : MonoBehaviour
         int finalResult = rawResult;
         if (cardManager != null && npcState != null)
         {
-            finalResult = cardManager.GetFinalRollValue(npcState, rawResult);
+            finalResult = npcState.rawRoll + npcState.rollModifier;
         }
 
         Debug.Log($"NPC TurnCoroutine: サイコロを振って「{finalResult}」が出ました。");
