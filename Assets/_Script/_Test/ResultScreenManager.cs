@@ -25,7 +25,7 @@ public class ResultScreenManager : MonoBehaviour
     /// <summary>
     /// 受け取った順位情報をUIに表示する
     /// </summary>
-    private void DisplayRankings(List<GameManager.RankEntry> rankings)
+    private void DisplayRankings(List<RankEntry> rankings)
     {
         string resultString = "--- 最終順位 ---\n\n";
         for (int i = 0; i < rankings.Count; i++)

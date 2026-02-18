@@ -190,7 +190,7 @@ private IEnumerator MoveOnceAndEndTurn(Vector3 targetPosition)
     private void HandleMoveEnd()
     {
         // ★追加: ゲームの状態が「プレイ中」でなければ、何もしない
-        if (gameManager.currentPhase != GameManager.GamePhase.Playing)
+        if (gameManager.CurrentPhase != GameManager.GamePhase.Playing)
         {
             HideArrows();
             return;
